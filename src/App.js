@@ -118,13 +118,21 @@ const App = () => {
           <h3>
             {[players[0]]} - {state[players[0]]}
           </h3>
-          {!state.winner && <Button onClick={() => setScore(0)}>Score</Button>}
+          {!state.winner && (
+            <Button data-testid="score-button-p1" onClick={() => setScore(0)}>
+              Score
+            </Button>
+          )}
         </Col>
         <Col sm={6}>
           <h3>
             {[players[1]]} - {state[players[1]]}
           </h3>
-          {!state.winner && <Button onClick={() => setScore(1)}>Score</Button>}
+          {!state.winner && (
+            <Button data-testid="score-button-p2" onClick={() => setScore(1)}>
+              Score
+            </Button>
+          )}
         </Col>
         {!state.winner && state.isDeuce && (
           <Col xs={12}>
