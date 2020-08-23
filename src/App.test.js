@@ -82,3 +82,24 @@ test("player 1 on advantage than back on deuce point", async () => {
   const playerOne = await findByText(/Roger - 40/);
   expect(playerOne).toBeInTheDocument();
 });
+
+test("player 1 on advantage but player 2 wins", async () => {
+  const { getByTestId, findByText } = render(<App />);
+
+  fireEvent.click(getByTestId("score-button-p1"));
+  fireEvent.click(getByTestId("score-button-p1"));
+  fireEvent.click(getByTestId("score-button-p1"));
+
+  fireEvent.click(getByTestId("score-button-p2"));
+  fireEvent.click(getByTestId("score-button-p2"));
+  fireEvent.click(getByTestId("score-button-p2"));
+
+  fireEvent.click(getByTestId("score-button-p1"));
+
+  fireEvent.click(getByTestId("score-button-p2"));
+  fireEvent.click(getByTestId("score-button-p2"));
+  fireEvent.click(getByTestId("score-button-p2"));
+
+  const playerOne = await findByText(/Tim wins/);
+  expect(playerOne).toBeInTheDocument();
+});

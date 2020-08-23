@@ -10,6 +10,7 @@ import "./App.scss";
 const players = ["Roger", "Tim"];
 
 const scoring = [0, 15, 30, 40, 45];
+const advantage = "A";
 
 const initialState = {
   [players[0]]: scoring[0],
@@ -46,21 +47,24 @@ const App = () => {
     const otherPlayer = players[Number(!index)];
 
     // Scoring player is already on advantage
-    if (state[scoringPlayer] === "A")
+    if (state[scoringPlayer] === advantage)
       // Scoring player wins.
       newState = {
         [scoringPlayer]: winnerPoint,
       };
     // Scoring player is on deuce point and other player is on advantage.
-    else if (state[scoringPlayer] === deucePoint && state[otherPlayer] === "A")
-      // Other player goes back to deuce pint.
+    else if (
+      state[scoringPlayer] === deucePoint &&
+      state[otherPlayer] === advantage
+    )
+      // Other player goes back to deuce point.
       newState = {
         [otherPlayer]: deucePoint,
       };
     else {
       // Scoring player goes on advantage.
       newState = {
-        [scoringPlayer]: "A",
+        [scoringPlayer]: advantage,
       };
     }
 
@@ -68,18 +72,18 @@ const App = () => {
   };
 
   const setScore = (index) => {
-    let newState;
+    let newState = {
+      type: SET_SCORE,
+      state: null,
+    };
 
-    // If match is on deuce workout advantage, otherwise set normal point.
-    if (state.isDeuce) newState = setAdvantage(index);
+    // If match is on deuce work out advantage, otherwise set normal point.
+    if (state.isDeuce) newState.state = setAdvantage(index);
     else {
-      newState = setPoint(index);
+      newState.state = setPoint(index);
     }
 
-    dispatch({
-      type: SET_SCORE,
-      state: newState,
-    });
+    dispatch(newState);
   };
 
   const setDeuce = () => {
@@ -101,6 +105,7 @@ const App = () => {
           type: SET_WINNER,
           winner: player,
         };
+
         dispatch(newState);
       }
     });
@@ -142,7 +147,9 @@ const App = () => {
         {state.winner && (
           <Col xs={12}>
             <h5>{state.winner} wins</h5>
-            <Button onClick={() => restart()}>New Game</Button>
+            <Button onClick={() => restart()} outline>
+              New Game
+            </Button>
           </Col>
         )}
       </Row>

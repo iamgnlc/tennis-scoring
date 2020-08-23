@@ -1,6 +1,6 @@
 # Tennis Scoring
 
-Demo app to simulate tennis scoring algorithm.
+React demo app to simulate tennis scoring algorithm.
 
 ## Install dependencies
 
