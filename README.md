@@ -21,3 +21,7 @@ $ yarn test
 ```
 
 Unit test written using https://testing-library.com/.
+
+---
+
+![author](https://img.shields.io/badge/author-iamgnlc-blueviolet)
