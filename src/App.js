@@ -6,10 +6,14 @@ import { SET_SCORE, IS_DEUCE, SET_WINNER, RESTART } from "./actions.js";
 import reducer from "./reducer.js";
 
 import "./App.scss";
+import "./Court.scss";
 
 const players = ["Roger", "Tim"];
 
-const scoring = [0, 15, 30, 40, 45];
+const scoring = [0, 15, 30, 40, 45, "A"];
+const advantageScore = scoring[scoring.length - 1];
+const winnerScore = scoring[scoring.length - 2];
+const deuceScore = scoring[scoring.length - 3];
 
 const initialState = {
   [players[0]]: scoring[0],
@@ -20,9 +24,6 @@ const initialState = {
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const winnerScore = scoring[scoring.length - 1];
-  const deuceScore = scoring[scoring.length - 2];
 
   const restart = () => {
     const newState = {
@@ -46,13 +47,16 @@ const App = () => {
     const otherPlayer = players[Number(!index)];
 
     // Scoring player is already on advantage.
-    if (state[scoringPlayer] === "A")
+    if (state[scoringPlayer] === advantageScore)
       // Scoring player wins.
       newState = {
         [scoringPlayer]: winnerScore,
       };
     // Scoring player is on deuce score and other player is on advantage.
-    else if (state[scoringPlayer] === deuceScore && state[otherPlayer] === "A")
+    else if (
+      state[scoringPlayer] === deuceScore &&
+      state[otherPlayer] === advantageScore
+    )
       // Other player goes back to deuce score.
       newState = {
         [otherPlayer]: deuceScore,
@@ -60,7 +64,7 @@ const App = () => {
     else {
       // Scoring player goes on advantage.
       newState = {
-        [scoringPlayer]: "A",
+        [scoringPlayer]: advantageScore,
       };
     }
 
@@ -154,8 +158,28 @@ const App = () => {
     </Col>
   );
 
+  const Court = () => (
+    <div class="court">
+      <div class="court__grid">
+        <div class="court__cell court__alley--top-left"></div>
+        <div class="court__cell court__alley--top-right"></div>
+        <div class="court__cell court__nml--left"></div>
+        <div class="court__cell court__ad--left"></div>
+        <div class="court__cell court__ad--right"></div>
+        <div class="court__cell court__dc--left"></div>
+        <div class="court__cell court__dc--right"></div>
+        <div class="court__cell court__nml--right"></div>
+        <div class="court__cell court__alley--bottom-left"></div>
+        <div class="court__cell court__alley--bottom-right"></div>
+      </div>
+    </div>
+  );
+
   return (
     <Container align="center">
+      <Row>
+        <Court />
+      </Row>
       <Row>
         <PlayerOne />
         <PlayerTwo />
