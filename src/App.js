@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { memo, useReducer, useEffect } from "react";
 
 import { Container, Row, Col, Button } from "reactstrap";
 
@@ -119,61 +119,57 @@ const App = () => {
     if (!state.winner) setWinner();
   });
 
-  const PlayerOne = () => (
-    <Col sm={6}>
-      <h3>
-        {[players[0]]} - {state[players[0]]}
-      </h3>
-      {!state.winner && (
-        <Button data-testid="score-button-p1" onClick={scorePlayerOne}>
-          Score
-        </Button>
-      )}
-    </Col>
-  );
+  const Player = ({ name, id, handleClick }) => {
+    return (
+      <Col sm={6}>
+        <h3>{name}</h3>
+        {!state.winner && (
+          <Button data-testid={`score-button-${id}`} onClick={handleClick}>
+            Score
+          </Button>
+        )}
+      </Col>
+    );
+  };
 
-  const PlayerTwo = () => (
-    <Col sm={6}>
-      <h3>
-        {[players[1]]} - {state[players[1]]}
-      </h3>
-      {!state.winner && (
-        <Button data-testid="score-button-p2" onClick={scorePlayerTwo}>
-          Score
-        </Button>
-      )}
-    </Col>
-  );
+  const PlayerOne = () => {
+    const name = `${players[0]} - ${state[players[0]]}`;
+    return <Player name={name} id="p1" handleClick={scorePlayerOne} />;
+  };
+  const PlayerTwo = () => {
+    const name = `${players[1]} - ${state[players[1]]}`;
+    return <Player name={name} id="p2" handleClick={scorePlayerTwo} />;
+  };
 
-  const Deuce = () => (
+  const Deuce = memo(() => (
     <Col xs={12}>
       <h5>Deuce</h5>
     </Col>
-  );
+  ));
 
-  const Winner = () => (
+  const Winner = memo(() => (
     <Col xs={12}>
       <h5>{state.winner} wins</h5>
       <Button onClick={restart}>New Game</Button>
     </Col>
-  );
+  ));
 
-  const Court = () => (
-    <div class="court">
-      <div class="court__grid">
-        <div class="court__cell court__alley--top-left"></div>
-        <div class="court__cell court__alley--top-right"></div>
-        <div class="court__cell court__nml--left"></div>
-        <div class="court__cell court__ad--left"></div>
-        <div class="court__cell court__ad--right"></div>
-        <div class="court__cell court__dc--left"></div>
-        <div class="court__cell court__dc--right"></div>
-        <div class="court__cell court__nml--right"></div>
-        <div class="court__cell court__alley--bottom-left"></div>
-        <div class="court__cell court__alley--bottom-right"></div>
+  const Court = memo(() => (
+    <div className="court">
+      <div className="court__grid">
+        <div className="court__cell court__alley--top-left" />
+        <div className="court__cell court__alley--top-right" />
+        <div className="court__cell court__nml--left" />
+        <div className="court__cell court__ad--left" />
+        <div className="court__cell court__ad--right" />
+        <div className="court__cell court__dc--left" />
+        <div className="court__cell court__dc--right" />
+        <div className="court__cell court__nml--right" />
+        <div className="court__cell court__alley--bottom-left" />
+        <div className="court__cell court__alley--bottom-right" />
       </div>
     </div>
-  );
+  ));
 
   return (
     <Container align="center">
