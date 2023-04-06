@@ -2,6 +2,11 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import App from "./App";
 
+test("renders court", () => {
+  const { getByTestId } = render(<App />);
+  expect(getByTestId("court")).toBeInTheDocument();
+});
+
 test("renders players name", () => {
   const { getByText } = render(<App />);
   expect(getByText(/Roger/)).toBeInTheDocument();

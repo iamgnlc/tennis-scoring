@@ -155,7 +155,7 @@ const App = () => {
   ));
 
   const Court = memo(() => (
-    <div className="court">
+    <div className="court" data-testid={`court`}>
       <div className="court__grid">
         <div className="court__cell court__alley--top-left" />
         <div className="court__cell court__alley--top-right" />
