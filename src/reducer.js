@@ -1,4 +1,4 @@
-import { SET_SCORE, RESTART, SET_WINNER, IS_DEUCE } from "./actions.js";
+import { SET_SCORE, RESTART, SET_WINNER, IS_DEUCE } from "./actions";
 
 export default (state, action) => {
   switch (action.type) {

@@ -2,8 +2,8 @@ import React, { memo, useReducer, useEffect } from "react";
 
 import { Container, Row, Col, Button } from "reactstrap";
 
-import { SET_SCORE, IS_DEUCE, SET_WINNER, RESTART } from "./actions.js";
-import reducer from "./reducer.js";
+import { SET_SCORE, IS_DEUCE, SET_WINNER, RESTART } from "./actions";
+import reducer from "./reducer";
 
 import "./App.scss";
 import "./Court.scss";
