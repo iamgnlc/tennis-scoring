@@ -22,9 +22,40 @@ const initialState = {
   winner: null,
 };
 
+const Deuce = memo(() => (
+  <Col xs={12}>
+    <h5>Deuce</h5>
+  </Col>
+));
+
+const Winner = memo(({ winner, restart }) => (
+  <Col xs={12}>
+    <h5>{winner} wins</h5>
+    <Button onClick={restart}>New Game</Button>
+  </Col>
+));
+
+const Court = memo(() => (
+  <div className="court" data-testid={`court`}>
+    <div className="court__grid">
+      <div className="court__cell court__alley--top-left" />
+      <div className="court__cell court__alley--top-right" />
+      <div className="court__cell court__nml--left" />
+      <div className="court__cell court__ad--left" />
+      <div className="court__cell court__ad--right" />
+      <div className="court__cell court__dc--left" />
+      <div className="court__cell court__dc--right" />
+      <div className="court__cell court__nml--right" />
+      <div className="court__cell court__alley--bottom-left" />
+      <div className="court__cell court__alley--bottom-right" />
+    </div>
+  </div>
+));
+
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // Restart the match.
   const restart = () => {
     const newState = {
       type: RESTART,
@@ -34,6 +65,7 @@ const App = () => {
     dispatch(newState);
   };
 
+  // Increase point for selected player.
   const setPoint = (index) => {
     return {
       [players[index]]: scoring[scoring.indexOf(state[players[index]]) + 1],
@@ -141,36 +173,6 @@ const App = () => {
     return <Player name={name} id="p2" handleClick={scorePlayerTwo} />;
   };
 
-  const Deuce = memo(() => (
-    <Col xs={12}>
-      <h5>Deuce</h5>
-    </Col>
-  ));
-
-  const Winner = memo(() => (
-    <Col xs={12}>
-      <h5>{state.winner} wins</h5>
-      <Button onClick={restart}>New Game</Button>
-    </Col>
-  ));
-
-  const Court = memo(() => (
-    <div className="court" data-testid={`court`}>
-      <div className="court__grid">
-        <div className="court__cell court__alley--top-left" />
-        <div className="court__cell court__alley--top-right" />
-        <div className="court__cell court__nml--left" />
-        <div className="court__cell court__ad--left" />
-        <div className="court__cell court__ad--right" />
-        <div className="court__cell court__dc--left" />
-        <div className="court__cell court__dc--right" />
-        <div className="court__cell court__nml--right" />
-        <div className="court__cell court__alley--bottom-left" />
-        <div className="court__cell court__alley--bottom-right" />
-      </div>
-    </div>
-  ));
-
   return (
     <Container align="center">
       <Row>
@@ -180,7 +182,7 @@ const App = () => {
         <PlayerOne />
         <PlayerTwo />
         {!state.winner && state.isDeuce && <Deuce />}
-        {state.winner && <Winner />}
+        {state.winner && <Winner winner={state.winner} restart={restart} />}
       </Row>
     </Container>
   );
